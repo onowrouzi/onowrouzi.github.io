@@ -6,7 +6,7 @@ body {
 	font-family: "Arial", "Lucida Sans Unicode";
 	line-height: 1.429;
 	clear: both;
-	background: url(/images/swirls.jpg) no-repeat;
+	background: url(../images/swirls.jpg) no-repeat;
     background-size: cover;
 }
 
