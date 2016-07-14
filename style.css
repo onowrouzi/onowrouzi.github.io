@@ -1,0 +1,263 @@
+        body {
+          font-family: "Arial Black";
+          background-color: #777;
+        }
+        
+        h1, h2, h3 {
+          text-shadow:rgba(0, 0, 0, 0.360784) 5px 10px 10px;
+        }
+        
+        .content{
+            min-height: 85vh;
+            font-family: "Arial Black";
+        }
+        
+        a, a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .top {
+            background-color: black;
+            color: white;
+            font-family: 'Agency FB';
+            font-size: 40px;
+            width: 100vw;
+            min-height: 50vh;
+            max-height: 50vh;
+        }
+
+        #button {
+            position: relative;
+            z-index: 999;
+            top: -25px;
+            margin-left: 40%;
+            width: 20%;
+            border-bottom: 5px groove rgba(155, 155, 155, 0.5);
+            border-right: 2px groove rgba(155, 155, 155, 0.5);
+        }
+
+        .btm {
+            background-color: white;
+            color: black;
+            font-family: "Arial Black";
+            font-size: 30px;
+            min-height: 50vh;
+            max-height: 50vh;
+            position: absolute;
+            top: 50%;
+            width: 100%;
+        }
+        
+        .pStart {
+            padding-top: 15vh;
+        }
+        
+        .navbar {
+            background-color: black;
+            color: white;
+            border-radius: 0;
+            font-family: "Lucida Sans Unicode";
+            font-weight: 700;
+        }
+        
+        .footer {
+            width: 100vw;
+            background-color: black;
+            color: #999;
+            padding: 5vw;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .footer_info {
+            font-size: 1vw;
+        }
+        
+        #footer_icons {
+            font-size: 4vw;
+        }
+        
+        #footer_icons > a {
+          margin: 0 2vw 0 2vw;
+        }
+        
+        .home {
+            margin-top: 5vh;
+            margin-bottom: 10vh;
+            background-color: white;
+            padding: 50px;
+            -webkit-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            -moz-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            box-shadow:rgb(0, 0, 0) 1px 12px 100px; 
+        }
+        
+        #wave {
+            -webkit-box-shadow:rgba(0, 0, 0, 0.933333) 0px 10px 42px 0px;
+            -moz-box-shadow:rgba(0, 0, 0, 0.933333) 0px 10px 42px 0px;
+            box-shadow:rgba(0, 0, 0, 0.933333) 0px 10px 42px 0px;
+        }
+        
+        #greeting {
+            margin-top: 10%;
+            font-size: 20px;
+            font-size: 2vw;
+            font-family: "Courier New";
+        }
+        
+        #projectCarousel {
+            -webkit-box-shadow:rgb(0, 0, 0) 1px 10px 100px 10px;
+            -moz-box-shadow:rgb(0, 0, 0) 1px 10px 50px 10px;
+            box-shadow:rgb(0, 0, 0) 20px 20px 50px; 
+            margin-bottom: 15vh;
+        }
+        
+        .carousel-inner {
+            background-color: black;
+            overflow: visible;
+        }
+        
+        .carousel-indicators{
+            bottom: -5vh;
+        }
+        
+        .carousel-control.left, .carousel-control.right {
+            background-image: none
+        }
+        
+        .carousel img {
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            max-height: 40vh;
+            min-height: 40vh;
+        }
+        
+        .carousel-caption {
+            font-size: 1.5vh;
+            bottom: -22vh;
+            color: #333;
+            z-index: 999;
+        }
+        
+        #disqus_thread {
+            max-height: 58vh;
+            min-height: 58vh;
+            overflow: auto;
+        }
+        
+        .container .jumbotron {
+            border-radius: 0px;
+        }
+        
+        .blog_background {
+            margin-top: -3vh;
+            bottom:0;
+            padding-top: 3vh;
+            padding-bottom: 20vh;
+        }
+        
+        .blog_title {
+            background-color: white;
+            margin: 1vh 0 4vh 0;
+            box-shadow: 0 8px 8px 0 #333;
+            padding: 2vw;
+        }
+        
+        .blog_post {
+            background-color: white;
+            margin-bottom: 2vh;
+            box-shadow: 0 15px 15px 0 #777;
+            padding: 2vw;
+            font-family: verdana;
+        }
+        
+        #postWrap {
+            max-height: 102vh;
+            overflow: auto;
+        }
+        
+        ::-webkit-scrollbar{
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track{
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        }
+
+        ::-webkit-scrollbar-track-piece{
+            background:#111;
+            border-radius:4px;
+            border:1px solid #333;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+            border-radius:4px;  
+            border:1px solid rgba(255,255,255,0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb:window-inactive {
+          	background: #777; 
+        }
+        
+        .contact {
+            background-color: white;
+            -webkit-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            -moz-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            box-shadow:rgb(0, 0, 0) 1px 12px 100px; 
+            margin-bottom: 10vh;
+        }
+        
+        .contact_row {
+            margin: 12vh 0 20vh 16.5vw;
+        }
+        
+        .contactImg {
+            max-height: 40vh;
+            opacity: 1.0;
+        }
+        
+        .contactImg:hover {
+            opacity: 0.7;
+        }
+        
+        .resume {
+            font-size: 2vw;
+            font-family: Arial;
+            background-color: white;
+            -webkit-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            -moz-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            box-shadow:rgb(0, 0, 0) 1px 12px 100px; 
+            margin-bottom: 20vh;
+            padding-top: 50px; 
+            padding-bottom: 50px;
+        }
+        
+        .about {
+            background-color: white;
+            -webkit-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            -moz-box-shadow:rgb(0, 0, 0) 1px 12px 100px 22px;
+            box-shadow:rgb(0, 0, 0) 1px 12px 100px; 
+            padding: 30px;
+            margin-bottom: 5vh;
+            font-family: Arial;
+        }
+        
+        .about h2{
+            font-family: "Arial Black";
+        }
+        
+        .credits {
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+            height: 12vh;
+        }
+        
+        .credits > img {
+            height: 100%;
+            max-width: 100%;
+        }
+        
+        
+        
