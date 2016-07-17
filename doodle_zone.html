@@ -15,11 +15,11 @@
       <br>
       <div style="display:inline-flex">
         <span id="black">BLACK: 
-			<div class="colors" style="background-color: black"></div>
-		</span>
+          <div class="colors" style="background-color: black"></div>
+        </span>
         <span id="white" style="margin-left: 10px">ERASE: 
-			<div class="colors" style="background-color: white"></div>
-		</span>
+          <div class="colors" style="background-color: white"></div>
+        </span>
       </div>
       <br>
       <h3>Current Color: </h3> 
@@ -30,10 +30,23 @@
       </div>
       <br><br>
       <h3>Brush Size:</h3>
-      <button class="size" value="5">Small</button>
-      <button class="size" value="10">Normal</button>
-      <button class="size" value="20">Large</button>
-      <button class="size" value="40">Huge</button>
+      <div style="display: inline-flex">
+        <div class="size" data-size="2">
+          <img id="dotTny" src="/images/BlackDot.png">
+        </div>
+        <div class="size" data-size="5">
+          <img id="dotSm" src="/images/BlackDot.png">
+        </div>
+        <div class="size curSize" data-size="10">
+          <img id="dotMd" src="/images/BlackDot.png">
+        </div>
+        <div class="size" data-size="20">
+          <img id="dotLg" src="/images/BlackDot.png">
+        </div>
+        <div class="size" data-size="40">
+          <img id="dotHg" src="/images/BlackDot.png">
+        </div>
+      </div>
       <br><br>
       <h3>Text:</h3>
       <button id="text">Insert Text</button>

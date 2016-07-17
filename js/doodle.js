@@ -53,7 +53,9 @@
       }));
       
       $('.size').click(function() {
-        curSize = $(this).val();
+        curSize = $(this).data("size");
+        $('.curSize').removeClass('curSize');
+        $(this).addClass('curSize');
       });
       
       $('#text').click(function() {
@@ -85,7 +87,7 @@
         drawFontFamily.splice(0);
         drawFontSize.splice(0);
         $('.colors').remove();
-		$('#black').append("<div class='colors' style='background-color: black'></div>");
+        $('#black').append("<div class='colors' style='background-color: black'></div>");
         $('#white').append("<div class='colors' style='background-color: white'></div>");
       });
       
