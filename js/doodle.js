@@ -85,6 +85,8 @@
         drawFontFamily.splice(0);
         drawFontSize.splice(0);
         $('.colors').remove();
+		$('#black').append("<div class='colors' style='background-color: black'></div>");
+        $('#white').append("<div class='colors' style='background-color: white'></div>");
       });
       
       var link = document.getElementById('download');
