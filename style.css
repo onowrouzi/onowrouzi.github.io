@@ -259,5 +259,51 @@
             max-width: 100%;
         }
         
+      /*Doodle Zone*/
+      #doodles {
+        min-width: 1400px;
+      }
+      
+      #options {
+        border-right: 3px solid black;
+        float: left;
+        min-height: 700px;
+        max-height: 700px;
+        min-width: 300px;
+        overflow: auto;
+      }
+      
+      #doodle_header { 
+        text-align: center;
+        margin-top: -30px;
+      }
+      
+      #colorPicker {
+        cursor: pointer;
+      }
+      
+      #curColor {
+        width: 40px;
+        height: 40px;
+        background-color: black;
+        margin-left: 10px;
+      }
+      
+      #usedColors {
+        max-width: 200px;
+      }
+      
+      .colors {
+        width: 20px; 
+        height: 20px; 
+        float: left; 
+        margin: 2px;
+        cursor: pointer;
+        border: 1px solid black;
+      }
+      
+      #doodle {
+        margin-top: 5vh;
+      }
         
         

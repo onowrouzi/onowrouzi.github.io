@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Doodle Zone</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  
+  <body>
+  <div id="doodles">
+    <div id="options" class="home">
+      <h1 id="doodle_header">Doodle Zone</h1>
+      <h3>Pick a color:</h3>
+      <canvas id="colorPicker" width="300" height="300"></canvas>
+      <br>
+      <div style="display:inline-flex">
+        <span>BLACK: </span>
+        <div class="colors" style="background-color: black"></div>
+        <span style="margin-left: 10px">ERASE: </span>
+        <div class="colors" style="background-color: white"></div>
+      </div>
+      <br>
+      <h3>Current Color: </h3> 
+      <div id="curColor"></div>
+      <br>
+      <div id="usedColors">
+        <h3>Used Colors:</h3>
+      </div>
+      <br><br>
+      <h3>Brush Size:</h3>
+      <button class="size" value="5">Small</button>
+      <button class="size" value="10">Normal</button>
+      <button class="size" value="20">Large</button>
+      <button class="size" value="40">Huge</button>
+      <br><br>
+      <h3>Text:</h3>
+      <button id="text">Insert Text</button>
+      
+      <select id="fontSize">
+      </select>
+      <select id="fontFamily">
+        <option value="Arial">Arial</option>
+        <option value="Arial Black">Arial Black</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+      </select>
+      <div id="inputText"></div>
+      <br>
+      <button id="clear">Clear</button>
+      <button><a href="#" target="_blank" id="download">Open image in new tab</a></button>
+    </div>
+    <canvas id="doodle" width="900" height="800" style="border: 1px solid black; background-color:white">
+      YOUR BROWSER DOESN'T SUPPORT CANVAS.
+    </canvas>
+  </div>
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="/js/doodle.js" type="text/javascript"></script>
+  </body>
+</html>
+
