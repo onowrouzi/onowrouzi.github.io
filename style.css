@@ -137,7 +137,7 @@
             bottom: -25vh;
             color: #333;
             z-index: 999;
-			margin
+			margin-bottom: 1vh;
         }
         
         #disqus_thread {
