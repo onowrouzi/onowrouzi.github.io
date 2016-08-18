@@ -108,7 +108,7 @@
             -webkit-box-shadow:rgb(0, 0, 0) 1px 10px 100px 10px;
             -moz-box-shadow:rgb(0, 0, 0) 1px 10px 50px 10px;
             box-shadow:rgb(0, 0, 0) 20px 20px 50px; 
-            margin-bottom: 15vh;
+            margin-bottom: 18vh;
         }
         
         .carousel-inner {
@@ -137,7 +137,6 @@
             bottom: -25vh;
             color: #333;
             z-index: 999;
-			margin-bottom: 5vh;
         }
         
         #disqus_thread {
