@@ -137,11 +137,12 @@
             bottom: -25vh;
             color: #333;
             z-index: 999;
+			margin
         }
         
         #disqus_thread {
-            max-height: 61vh;
-            min-height: 61vh;
+            max-height: 59vh;
+            min-height: 59vh;
             overflow: auto;
         }
         
