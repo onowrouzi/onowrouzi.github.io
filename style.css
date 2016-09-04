@@ -101,7 +101,14 @@
         }
 
         #projectCarousel {
+<<<<<<< HEAD
+            margin-bottom: 15vh;
+=======
+            -webkit-box-shadow:rgb(0, 0, 0) 1px 10px 100px 10px;
+            -moz-box-shadow:rgb(0, 0, 0) 1px 10px 50px 10px;
+            box-shadow:rgb(0, 0, 0) 20px 20px 50px; 
             margin-bottom: 15.5vh;
+>>>>>>> e695ff0730e5254ad4db2cd1582b4de3ee1322c9
         }
 
         .carousel-inner {
