@@ -111,10 +111,12 @@
 
         .carousel-indicators{
             bottom: -5vh;
+            color: #DDD;
         }
 
         .carousel-control.left, .carousel-control.right {
-            background-image: none
+            background-image: none;
+            color: #DDD;
         }
 
         .carousel img {
