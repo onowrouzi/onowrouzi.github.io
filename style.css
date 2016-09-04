@@ -84,13 +84,13 @@
             padding: 50px;
             -webkit-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             -moz-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
-            box-shadow:rgb(0, 0, 0) 0px 0px 36px;
+            box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
         }
 
         #wave {
           -webkit-box-shadow:rgba(0, 0, 0, 0.933333) 0px 7px 13px -3px;
           -moz-box-shadow:rgba(0, 0, 0, 0.933333) 0px 7px 13px -3px;
-          box-shadow:rgba(0, 0, 0, 0.933333) 0px;
+          box-shadow:rgba(0, 0, 0, 0.933333) 0px 7px 13px -3px;
         }
 
         #greeting {
@@ -154,7 +154,7 @@
             margin: 1vh 0 4vh 0;
             -webkit-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             -moz-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
-            box-shadow:rgb(0, 0, 0) 0px 0px 36px;
+            box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             padding: 2vw;
         }
 
@@ -200,7 +200,7 @@
             background-color: white;
             -webkit-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             -moz-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
-            box-shadow:rgb(0, 0, 0) 0px 0px 36px;
+            box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             margin-bottom: 10vh;
         }
 
@@ -223,7 +223,7 @@
             background-color: white;
             -webkit-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             -moz-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
-            box-shadow:rgb(0, 0, 0) 0px 0px 36px;
+            box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             margin-bottom: 20vh;
             padding-top: 50px;
             padding-bottom: 50px;
@@ -233,7 +233,7 @@
             background-color: white;
             -webkit-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             -moz-box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
-            box-shadow:rgb(0, 0, 0) 0px 0px 36px;
+            box-shadow:rgb(0, 0, 0) 0px 0px 36px -10px;
             padding: 30px;
             margin-bottom: 5vh;
             font-family: Arial;
