@@ -106,6 +106,7 @@
         .carousel-inner {
             background-color: black;
             overflow: visible;
+            border: 1px solid black;
         }
 
         .carousel-indicators{
@@ -124,6 +125,7 @@
             min-width: 100%;
             max-height: 40vh;
             min-height: 40vh;
+            border: 1px solid black;
         }
 
         .carousel-caption {
