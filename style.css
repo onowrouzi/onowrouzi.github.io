@@ -101,7 +101,7 @@
         }
 
         #projectCarousel {
-            margin-bottom: 15vh;
+            margin-bottom: 15.5vh;
         }
 
         .carousel-inner {
@@ -127,14 +127,14 @@
 
         .carousel-caption {
             font-size: 1.5vh;
-            bottom: -22vh;
+            bottom: -25vh;
             color: #333;
             z-index: 999;
         }
 
         #disqus_thread {
-            max-height: 58vh;
-            min-height: 58vh;
+            max-height: 59vh;
+            min-height: 59vh;
             overflow: auto;
         }
 
