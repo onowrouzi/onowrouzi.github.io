@@ -100,7 +100,7 @@
         }
 
         #projectCarousel {
-            margin-bottom: 15vh;
+            margin-bottom: 17vh;
         }
 
         .carousel-inner {
@@ -130,7 +130,9 @@
 
         .carousel-caption {
             font-size: 1.5vh;
-            bottom: -25vh;
+            position: relative;
+            left: auto;
+            right: auto;
             color: #333;
             z-index: 999;
         }
