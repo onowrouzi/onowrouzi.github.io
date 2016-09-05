@@ -100,8 +100,8 @@
         }
 
         #projects {
-            min-height: 70vh;
-            max-height: 70vh;
+            min-height: 80vh;
+            max-height: 80vh;
         }
 
         .carousel-inner {
