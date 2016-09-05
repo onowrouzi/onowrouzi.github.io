@@ -109,9 +109,11 @@
 
         .carousel-indicators{
             color: #DDD;
+            border: 1px solid #DDD;
         }
 
         .carousel-control.left, .carousel-control.right {
+            top: -10vh;
             background-image: none;
             color: #DDD;
         }
