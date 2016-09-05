@@ -99,10 +99,6 @@
             font-family: "Courier New";
         }
 
-        #projectCarousel {
-            margin-bottom: 17vh;
-        }
-
         .carousel-inner {
             overflow: visible;
         }
@@ -134,7 +130,7 @@
             z-index: 999;
         }
 
-        #disqus_thread {
+        #disqus_thread, #projects {
             max-height: 59vh;
             min-height: 59vh;
             overflow: auto;
