@@ -1,0 +1,16 @@
+<div class="terminal-text">
+  <div *ngFor="let l of displayLines; let i = index">
+    <div class="row">
+      <div class="col-12">
+        <p>
+          omid:~<span *ngIf="l.folder">/{{l.folder}}</span>$  {{l.text}}<span [hidden]="!visible" *ngIf="!multiLine || i == idx">_</span>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="l.output" class="col-10 offset-1">
+        <p class="terminal-output">{{l.output}}</p>
+      </div>
+    </div>
+  </div>
+</div>

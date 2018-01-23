@@ -1,0 +1,6 @@
+#game_canvas {
+  cursor: default;
+  &.focus {
+    cursor: none;
+  }
+}

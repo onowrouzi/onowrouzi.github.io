@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="col-12 col-md-6 offset-md-3">
+    <div class="terminal-wrapper">
+      <app-animated-terminal [lines]="termLines" [multiLine]="true" (onTerminalFinish)="loadHome()"></app-animated-terminal>
+    </div>
+    <i *ngIf="showLoadingIcon" class="fas fa-spinner fa-spin fa-pulse loading-icon"></i>
+  </div>
+</div>
