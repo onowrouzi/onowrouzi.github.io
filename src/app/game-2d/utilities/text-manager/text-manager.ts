@@ -17,7 +17,7 @@ export class TextManager {
 
   drawText(text: string, y: number, x?: number, align?: string, color?: string, fontHeight?: number, fontFamily?: string) {
     this.ctx.fillStyle = color || 'white';
-    this.ctx.font = (fontHeight || 16) + 'vh ' + (fontFamily || 'calibri');
+    this.ctx.font = this.window.height / 100 * (fontHeight || 24) + 'px ' + (fontFamily || 'calibri');
     this.ctx.textAlign = align || 'center';
     const xPos = align === 'right' ? 1 : align === 'left' ? 0 : 0.5;
     this.ctx.fillText(text, x || (this.window.width * xPos), y || (this.window.height * 0.5));

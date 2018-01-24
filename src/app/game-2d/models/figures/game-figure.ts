@@ -17,11 +17,11 @@ export abstract class GameFigure {
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, step?: number) {
     this.ctx = ctx;
     this.window = GameWindow.get();
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.step = step || 0.1;
+    this.x = x > 1 ? x / this.window.width : x;
+    this.y = y > 1 ? y / this.window.height : y;
+    this.width = width > 1 ? width / this.window.width : width;
+    this.height = height > 1 ? height / this.window.height : height;
+    this.step = (step > 1 ? step / this.window.width : step) || 0.1;
   }
 
   abstract render();

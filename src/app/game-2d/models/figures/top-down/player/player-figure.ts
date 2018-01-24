@@ -9,7 +9,7 @@ import { IObservable } from 'app/game-2d/models/observer/observable';
 import { IObserver } from 'app/game-2d/models/observer/observer';
 import { StatsManager } from 'app/game-2d/utilities/stats-manager/stats-manager';
 
-import { each } from 'lodash';
+import { each, reject } from 'lodash';
 
 export class PlayerTopDownFigure extends GameSprite implements IObservable {
 
@@ -61,11 +61,12 @@ export class PlayerTopDownFigure extends GameSprite implements IObservable {
     this.observers.push(o);
   }
 
-  removeObserver(o: IObserver<this>) {
-
+  removeObserver(o?: IObserver<this>) {
+    this.observers = reject(this.observers, {deleteObserver: true});
   }
 
   notifyObservers() {
     each(this.observers, (o: IObserver<this>) => o.onNotify(this));
+    this.removeObserver();
   }
 }

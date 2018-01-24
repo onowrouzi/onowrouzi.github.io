@@ -9,7 +9,6 @@ import { GameFigureManager, GameFigureTypes } from 'app/game-2d/models/figures/g
 import { MuteButton } from 'app/game-2d/models/figures/top-down/ui/mute-button';
 import { GameSettings } from 'app/game-2d/utilities/settings/game-settings';
 import { PauseMenuButton } from 'app/game-2d/models/figures/top-down/ui/pause-menu-button';
-import { ClickFigure } from 'app/game-2d/models/figures/click-figure';
 import { KeyCode } from 'app/game-2d/utilities/key-handler/key-codes.enum';
 import { TextManager } from 'app/game-2d/utilities/text-manager/text-manager';
 
@@ -17,17 +16,17 @@ import { each } from 'lodash';
 import { StatsManager } from 'app/game-2d/utilities/stats-manager/stats-manager';
 import { Potion } from 'app/game-2d/models/figures/top-down/environment/potion';
 import { Heart } from 'app/game-2d/models/figures/top-down/ui/heart';
+import { ClickFigure } from 'app/game-2d/utilities/click-handler/click-figure';
 
 export class GameEngine {
   private static instance: GameEngine;
 
-  private readonly FPS = 30;
+  private readonly FPS = 20;
 
   private prevFrameTime = 0;
   private isLoading: boolean;
   private background: GrassTile;
   private player: PlayerTopDownFigure;
-  private window: GameWindow;
   private settings: GameSettings;
   private audio: HTMLAudioElement;
   private muteBtn: MuteButton;
@@ -37,6 +36,7 @@ export class GameEngine {
   private statsMgr: StatsManager;
 
   ctx: CanvasRenderingContext2D;
+  window: GameWindow;
   state: GameState;
   pauseKey = KeyCode.ESC;
   pausedText = 'PAUSED';
@@ -45,7 +45,8 @@ export class GameEngine {
 
   private constructor(canvas: HTMLCanvasElement, window: GameWindow) {
     this.ctx = canvas.getContext('2d');
-    canvas.addEventListener('click', this.handleClickEvent.bind(this));
+    canvas.addEventListener('click', this.onClick.bind(this));
+    canvas.addEventListener('blur', this.pause.bind(this));
     canvas.addEventListener('keydown', ((e) => {
       if (e.keyCode === this.pauseKey) {
         if (this.state === GameState.ACTIVE) {
@@ -67,7 +68,7 @@ export class GameEngine {
     this.audio.volume = 0.5;
 
     this.pauseBtns = [
-      new PauseMenuButton(0.5, 0.5, 0.3, 0.1, this.ctx, 'RESUME', this.play.bind(this)),
+      new PauseMenuButton(0.5, 0.5, 0.3, 0.1, this.ctx, this.play.bind(this), 'RESUME'),
     ];
 
     this.start();
@@ -111,8 +112,8 @@ export class GameEngine {
     each(figures, (list) => each(list, (f: GameFigure) => f.update()));
 
     const time = new Date(this.statsMgr.time * 1000).toISOString().substr(14, 5);
-    this.txtMgr.drawText(' ' + time, this.window.height * 0.99, null, 'left', 'white', 4);
-    this.txtMgr.drawText('SCORE: ' + this.statsMgr.score + ' ', this.window.height * 0.065, null, 'right', 'white', 4);
+    this.txtMgr.drawText(' ' + time, this.window.height * 0.99, null, 'left', 'white', 6);
+    this.txtMgr.drawText('SCORE: ' + this.statsMgr.score + ' ', this.window.height * 0.065, null, 'right', 'white', 6);
 
     switch (this.state) {
       case GameState.READY:
@@ -142,14 +143,15 @@ export class GameEngine {
     });
   }
 
-  handleClickEvent(e) {
-    const r = this.ctx.canvas.getBoundingClientRect();
-    const clickFigure = new ClickFigure(e.clientX - r.left, e.clientY - r.top, 0.01, 0.01, this.ctx);
-    const figures = this.figureManager.query();
+  onClick(e: MouseEvent) {
+    if (this.state === GameState.READY) {
+      return this.play();
+    }
+
     if (this.state === GameState.PAUSED) {
-      each(this.pauseBtns, (pb) => pb.detectCollision(clickFigure));
+      each(this.pauseBtns, (pb) => pb.onClick(e));
     } else if (this.state === GameState.ACTIVE) {
-      this.muteBtn.detectCollision(clickFigure);
+      this.muteBtn.onClick(e);
       this.audio.muted = this.settings.muted;
     }
   }
@@ -158,19 +160,19 @@ export class GameEngine {
     this.background = new GrassTile(0, 0, 0.1, 0.1, this.ctx);
     this.figureManager.add(this.background, GameFigureTypes.Environment);
 
-    const potion = new Potion(0.1, 0.5, 0.05, 0.1, this.ctx);
+    const potion = new Potion(0.1, 0.5, 20, 30, this.ctx);
     this.figureManager.add(potion, GameFigureTypes.Environment);
 
     this.muteBtn = new MuteButton(0.9, 0.9, 0.1, 0.1, this.ctx);
     this.figureManager.add(this.muteBtn, GameFigureTypes.UI);
 
-    this.player = new PlayerTopDownFigure(0.5, 0.5, 0.1, 0.2, this.ctx, 0.01);
+    this.player = new PlayerTopDownFigure(0.5, 0.5, 0.1, 0.2, this.ctx, 5);
     this.figureManager.add(this.player, GameFigureTypes.Friend, false, ((loaded: boolean) => {
       this.state = GameState.READY;
       this.isLoading = false;
     }).bind(this));
 
-    const heart = new Heart(0, 0.1, 0.05, 0.1, this.ctx);
+    const heart = new Heart(0, 5, 40, 40, this.ctx);
     this.figureManager.add(heart, GameFigureTypes.UI);
     this.player.addObserver(heart);
 

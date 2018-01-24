@@ -4,7 +4,7 @@ import { IObserver } from 'app/game-2d/models/observer/observer';
 import { GameWindow } from 'app/game-2d/models/window/game-window';
 
 export class Heart extends GameSprite implements IObserver<PlayerTopDownFigure> {
-
+  deleteObserver: boolean;
   count: number;
 
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D) {

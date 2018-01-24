@@ -8,6 +8,7 @@ export class StatsManager implements IObserver<PlayerTopDownFigure> {
 
   private timer: Subscription;
 
+  deleteObserver: boolean;
   score: number;
   time: number;
 

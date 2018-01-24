@@ -9,8 +9,4 @@ export class ClickFigure extends GameFigure {
   }
 
   render() {}
-
-  getCollisionBox() {
-    return new CollisionBox(this.x, this.x + this.width, this.y, this.y + this.height);
-  }
 }

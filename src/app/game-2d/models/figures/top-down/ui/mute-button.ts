@@ -1,20 +1,17 @@
 import { GameSprite } from 'app/game-2d/models/figures/game-sprite';
 import { GameSettings } from 'app/game-2d/utilities/settings/game-settings';
 import { PlayerTopDownFigure } from 'app/game-2d/models/figures/top-down/player/player-figure';
-import { ClickFigure } from 'app/game-2d/models/figures/click-figure';
-// tslint:disable-next-line:max-line-length
-import { ClickMuteButtonCollisionManager } from 'app/game-2d/models/figures/top-down/collision/click-mutebtn/player-mutebtn-collision-manager';
-import { IObserver } from 'app/game-2d/models/observer/observer';
+import { ClickFigure } from 'app/game-2d/utilities/click-handler/click-figure';
+import { OnGameClick } from 'app/game-2d/utilities/click-handler/on-game-click';
+import { ClickableFigure } from 'app/game-2d/utilities/click-handler/clickable-figure';
 
-export class MuteButton extends GameSprite {
+export class MuteButton extends ClickableFigure {
   settings: GameSettings;
-  clickDetector: ClickMuteButtonCollisionManager;
 
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D) {
-    super(x, y, width, height, ctx);
+    super(x, y, width, height, ctx, () => this.settings.muted = !this.settings.muted);
 
     this.settings = GameSettings.get();
-    this.clickDetector = new ClickMuteButtonCollisionManager();
   }
 
   load(callback?: (res: boolean) => boolean | void) {
@@ -25,9 +22,5 @@ export class MuteButton extends GameSprite {
   render() {
     this.sprites = this.settings.muted ? this.spritesList['muted'] : this.spritesList['unmuted'];
     super.render();
-  }
-
-  detectCollision(c: ClickFigure) {
-    this.clickDetector.onCollision(c, this);
   }
 }
