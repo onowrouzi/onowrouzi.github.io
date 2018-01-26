@@ -16,10 +16,30 @@ export class TextManager {
   }
 
   drawText(text: string, y: number, x?: number, align?: string, color?: string, fontHeight?: number, fontFamily?: string) {
+    const lineHeight = this.window.height / 100 * (fontHeight || 24);
     this.ctx.fillStyle = color || 'white';
-    this.ctx.font = this.window.height / 100 * (fontHeight || 24) + 'px ' + (fontFamily || 'calibri');
+    this.ctx.font = lineHeight + 'px ' + (fontFamily || 'calibri');
     this.ctx.textAlign = align || 'center';
     const xPos = align === 'right' ? 1 : align === 'left' ? 0 : 0.5;
-    this.ctx.fillText(text, x || (this.window.width * xPos), y || (this.window.height * 0.5));
+    x = x || (this.window.width * xPos);
+    y = y || (this.window.height * 0.5);
+
+    const words = text.split(' ');
+    let line = '';
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = this.ctx.measureText(testLine);
+      if (metrics.width > this.window.width && n > 0) {
+        this.ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+
+    this.ctx.fillText(line, x, y);
+
+    // this.ctx.fillText(text, x, y);
   }
 }

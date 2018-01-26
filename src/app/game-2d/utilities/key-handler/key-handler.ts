@@ -1,24 +1,25 @@
 import { PlayerTopDownFigure } from 'app/game-2d/models/figures/top-down/player/player-figure';
 import { KeyCode } from 'app/game-2d/utilities/key-handler/key-codes.enum';
-import { GameSprite } from 'app/game-2d/models/figures/game-sprite';
-import { GameEngine } from 'app/game-2d/engine/game-engine';
 
 import { each } from 'lodash';
+import { TopDownSpriteState } from 'app/game-2d/models/figures/top-down/handlers/movement/top-down-sprite-state';
+import { GameFigure } from 'app/game-2d/models/figures/game-figure';
 
 export class GameKeyHandler {
   private static instance: GameKeyHandler;
 
-  activeKeys: number[];
-  target: GameSprite;
+  private activeKeys: number[];
+  private lastKey: number;
+  private target: GameFigure;
 
-  private constructor(target?: GameSprite) {
+  private constructor(target?: GameFigure) {
     this.target = target;
     this.activeKeys = [];
-    document.addEventListener('keydown', this.onKeyDown.bind(this));
-    document.addEventListener('keyup', this.onKeyUp.bind(this));
+    this.target.ctx.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
+    this.target.ctx.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
   }
 
-  public static get(target?: GameSprite) {
+  public static get(target?: GameFigure) {
     return this.instance = this.instance || new this(target);
   }
 
@@ -38,9 +39,46 @@ export class GameKeyHandler {
     if (this.activeKeys.length === 0) {
       this.target.movementHandler.idle();
     }
+
+    this.lastKey = (e.keyCode || e.which) in KeyCode && (e.keyCode || e.which) !== KeyCode.ESC ? (e.keyCode || e.which) : this.lastKey;
+  }
+
+  isPressed(key: number): boolean {
+    return this.activeKeys.indexOf(key) > -1;
+  }
+
+  getDirection(): TopDownSpriteState {
+    const up = this.activeKeys.indexOf(KeyCode.UP);
+    const down = this.activeKeys.indexOf(KeyCode.DOWN);
+    const left = this.activeKeys.indexOf(KeyCode.LEFT);
+    const right = this.activeKeys.indexOf(KeyCode.RIGHT);
+
+    if ([up, down, left, right].every(d => d === -1)) {
+      switch (this.lastKey) {
+        case KeyCode.UP: return TopDownSpriteState.IDLE_UP;
+        case KeyCode.DOWN: return TopDownSpriteState.IDLE_DOWN;
+        case KeyCode.LEFT: return TopDownSpriteState.IDLE_LEFT;
+        case KeyCode.RIGHT: return TopDownSpriteState.IDLE_RIGHT;
+        default: return TopDownSpriteState.IDLE_DOWN;
+      }
+    }
+
+    const last = Math.max(up, down, left, right);
+
+    switch (last) {
+      case up: return TopDownSpriteState.MOVE_UP;
+      case down: return TopDownSpriteState.MOVE_DOWN;
+      case left: return TopDownSpriteState.MOVE_LEFT;
+      case right: return TopDownSpriteState.MOVE_RIGHT;
+    }
+  }
+
+  getLastKey(): number {
+    return this.lastKey;
   }
 
   clear() {
+    this.lastKey = this.activeKeys.length > 0 ? this.activeKeys[this.activeKeys.length - 1] : this.lastKey;
     this.activeKeys = [];
   }
 

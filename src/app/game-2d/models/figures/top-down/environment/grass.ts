@@ -12,7 +12,7 @@ export class GrassTile extends GridTile {
   }
 
   load(callback?: ResourceLoaderCallback) {
-    this.sprites = this.loader.load(['assets/sprites/environment/grass-tile.png'],
+    this.sprites = this.loader.load(['assets/sprites/environment/Main Floor.png'],
                     this.window.width * this.width,
                     this.window.height * this.height,
                     callback);

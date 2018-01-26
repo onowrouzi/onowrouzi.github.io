@@ -1,7 +1,9 @@
 import { GameWindow } from 'app/game-2d/models/window/game-window';
 import { CollisionBox } from 'app/game-2d/utilities/collision/collision-box';
 import { Guid } from 'app/game-2d/utilities/guid-generator';
-import { ResourceLoaderCallback } from 'app/game-2d/utilities/resource-loaders/resource-loader';
+import { ResourceLoaderCallback, ResourceLoader } from 'app/game-2d/utilities/resource-loaders/resource-loader';
+import { TopDownMovementHandler } from 'app/game-2d/models/figures/top-down/handlers/movement/top-down-movement-handler';
+import { TopDownSpriteState } from 'app/game-2d/models/figures/top-down/handlers/movement/top-down-sprite-state';
 
 export abstract class GameFigure {
   ctx: CanvasRenderingContext2D;
@@ -10,9 +12,13 @@ export abstract class GameFigure {
   width: number;
   height: number;
   step: number;
+  state: TopDownSpriteState;
+
   loaded: boolean;
   deleted: boolean;
   window: GameWindow;
+  loader: ResourceLoader;
+  movementHandler: TopDownMovementHandler;
 
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, step?: number) {
     this.ctx = ctx;
@@ -25,6 +31,10 @@ export abstract class GameFigure {
   }
 
   abstract render();
+
+  setState(state: TopDownSpriteState) {
+    this.state = state;
+  }
 
   load(callback?: ResourceLoaderCallback) {
     this.loaded = true;

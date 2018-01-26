@@ -14,10 +14,8 @@ import { each, reject } from 'lodash';
 export class PlayerTopDownFigure extends GameSprite implements IObservable {
 
   observers: IObserver<this>[];
-  keyHandler: GameKeyHandler;
   score: number;
   health: number;
-  state: string;
   loaded: boolean;
 
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, step?: number) {
@@ -27,11 +25,9 @@ export class PlayerTopDownFigure extends GameSprite implements IObservable {
     this.health = 3;
     this.state = PlayerTopDownState.IDLE_DOWN;
     this.movementHandler = new TopDownPlayerMovementHandler(this);
-    this.keyHandler = GameKeyHandler.get(this);
-    this.isLoaded.bind(this);
-
     this.observers = [StatsManager.get()];
 
+    this.isLoaded.bind(this);
     this.movementHandler.idle();
   }
 
@@ -45,7 +41,7 @@ export class PlayerTopDownFigure extends GameSprite implements IObservable {
   isLoaded(loaded: boolean, callback?: ResourceLoaderCallback) {
     if (loaded) {
       this.loaded = true;
-      this.sprites = this.spritesList[this.state];
+      this.sprites = this.spritesList[this.state.toString()];
       if (callback) {
         callback(true);
       }
@@ -54,6 +50,7 @@ export class PlayerTopDownFigure extends GameSprite implements IObservable {
 
   update() {
     this.notifyObservers();
+    this.movementHandler.update();
     super.update();
   }
 
@@ -68,5 +65,9 @@ export class PlayerTopDownFigure extends GameSprite implements IObservable {
   notifyObservers() {
     each(this.observers, (o: IObserver<this>) => o.onNotify(this));
     this.removeObserver();
+  }
+
+  enableControls(bool: boolean) {
+    (<TopDownPlayerMovementHandler>this.movementHandler).enableControls(bool);
   }
 }

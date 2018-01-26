@@ -5,19 +5,21 @@ import { TopDownSpriteState } from 'app/game-2d/models/figures/top-down/handlers
 import { TopDownMovementHandler } from 'app/game-2d/models/figures/top-down/handlers/movement/top-down-movement-handler';
 
 export abstract class GameSprite extends GameFigure {
-  loader: SpritesLoader;
   idx: number;
   sprites: HTMLImageElement[];
   spritesList: {};
-  movementHandler: TopDownMovementHandler;
-  state: string;
 
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, step?: number) {
     super(x, y, width, height, ctx, step);
 
     this.loader = new SpritesLoader();
-    this.movementHandler = new TopDownMovementHandler(this);
     this.spritesList = {};
+  }
+
+  setState(state: TopDownSpriteState) {
+    this.state = state;
+    this.sprites = this.spritesList[state.toString()];
+    this.idx = 0;
   }
 
   render() {

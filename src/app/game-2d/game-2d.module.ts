@@ -20,20 +20,3 @@ import { GameWindow } from 'app/game-2d/models/window/game-window';
 })
 export class Game2dModule { }
 
-@Injectable()
-export class Game {
-  engine: GameEngine;
-  window: GameWindow;
-  figureManager: GameFigureManager;
-  settingsManager: GameSettings;
-  keyHandler: GameKeyHandler;
-
-  constructor() {
-    this.engine = GameEngine.get();
-    this.window = GameWindow.get();
-    this.figureManager = GameFigureManager.get();
-    this.settingsManager = GameSettings.get();
-    this.keyHandler = GameKeyHandler.get();
-  }
-}
-
