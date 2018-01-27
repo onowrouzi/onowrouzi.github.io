@@ -1,7 +1,7 @@
 import { GameWindow } from 'app/game-2d/models/window/game-window';
 import { CollisionBox } from 'app/game-2d/utilities/collision/collision-box';
 import { Guid } from 'app/game-2d/utilities/guid-generator';
-import { ResourceLoaderCallback, ResourceLoader } from 'app/game-2d/utilities/resource-loaders/resource-loader';
+import { ResourceLoader } from 'app/game-2d/utilities/resource-loaders/resource-loader';
 import { TopDownMovementHandler } from 'app/game-2d/models/figures/top-down/handlers/movement/top-down-movement-handler';
 import { TopDownSpriteState } from 'app/game-2d/models/figures/top-down/handlers/movement/top-down-sprite-state';
 
@@ -36,9 +36,7 @@ export abstract class GameFigure {
     this.state = state;
   }
 
-  load(callback?: ResourceLoaderCallback) {
-    this.loaded = true;
-  }
+  load() {}
 
   update() {
     this.render();
@@ -49,5 +47,5 @@ export abstract class GameFigure {
                             this.window.height * this.y, this.window.height * this.y + this.height * this.window.height);
   }
 
-  detectCollision(f: GameFigure) {}
+  onCollision(g: GameFigure) {}
 }

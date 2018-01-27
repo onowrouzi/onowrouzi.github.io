@@ -1,5 +1,4 @@
 import { GameFigure } from 'app/game-2d/models/figures/game-figure';
-import { ResourceLoaderCallback } from 'app/game-2d/utilities/resource-loaders/resource-loader';
 
 import { each, reject } from 'lodash';
 
@@ -30,39 +29,39 @@ export class GameFigureManager {
     return this.instance = this.instance || new this();
   }
 
-  public query(type?: GameFigureTypes) {
+  query(type?: GameFigureTypes) {
     return type ? this.figureList[type] : this.figureList;
   }
 
-  public add(f: GameFigure | GameFigure[], type: GameFigureTypes, delayLoad?: boolean, callback?: ResourceLoaderCallback) {
-    this.figureList[type] = this.figureList[type].concat(f);
+  add(f: GameFigure | GameFigure[], type: GameFigureTypes, delayLoad?: boolean) {
+    return new Promise(async (res, rej) => {
+      this.figureList[type] = this.figureList[type].concat(f);
 
-    if (!delayLoad) {
-      if (Array.isArray(f)) {
-        each(f, (l) => {
-          callback = callback || (() => l.loaded = true);
-          return this.load(l, callback);
-        });
-      } else {
-        callback = callback || (() => f.loaded = true);
-        this.load(f, callback);
+      if (!delayLoad) {
+        if (Array.isArray(f)) {
+          for (let l of f) {
+            await l.load();
+          }
+          res(true);
+        } else {
+          await f.load();
+          res(true);
+        }
       }
-    }
+
+      res(true);
+    });
   }
 
-  public removeDeleted() {
+  removeDeleted() {
     each(GameFigureTypes, (t) => {
       this.figureList[t] = reject(this.figureList[t], (f: GameFigure) => f.deleted);
     });
   }
 
-  public loadAll(callback?: ResourceLoaderCallback) {
+  loadAll() {
     each(this.figureList, (l) => {
-      each(l, (f: GameFigure) => this.load(f, callback));
+      each(l, (f: GameFigure) => f.load());
     });
-  }
-
-  private load(f: GameFigure, callback?: ResourceLoaderCallback) {
-    return f.load(callback);
   }
 }

@@ -14,9 +14,9 @@ export class MuteButton extends ClickableFigure {
     this.settings = GameSettings.get();
   }
 
-  load(callback?: (res: boolean) => boolean | void) {
-    this.spritesList['muted'] = this.loader.load(['assets/sprites/ui/muted.png'], this.width, this.height, callback);
-    this.spritesList['unmuted'] = this.loader.load(['assets/sprites/ui/unmuted.png'], this.width, this.height, callback);
+  async load() {
+    this.spritesList['muted'] = await this.loader.load(['assets/sprites/ui/muted.png'], this.width, this.height);
+    this.spritesList['unmuted'] = await this.loader.load(['assets/sprites/ui/unmuted.png'], this.width, this.height);
   }
 
   render() {

@@ -1,7 +1,6 @@
 import { GameSprite } from 'app/game-2d/models/figures/game-sprite';
 import { GameKeyHandler } from 'app/game-2d/utilities/key-handler/key-handler';
 import { GameWindow } from 'app/game-2d/models/window/game-window';
-import { ResourceLoaderCallback } from 'app/game-2d/utilities/resource-loaders/resource-loader';
 import { PlayerTopDownSprites } from 'app/game-2d/models/figures/top-down/player/sprites/sprites';
 import { PlayerTopDownState } from 'app/game-2d/models/figures/top-down/player/states/player-states';
 import { TopDownPlayerMovementHandler } from 'app/game-2d/models/figures/top-down/player/handlers/top-down-player-movement-handler';
@@ -27,25 +26,19 @@ export class PlayerTopDownFigure extends GameSprite implements IObservable {
     this.movementHandler = new TopDownPlayerMovementHandler(this);
     this.observers = [StatsManager.get()];
 
-    this.isLoaded.bind(this);
     this.movementHandler.idle();
   }
 
-  load(callback?: ResourceLoaderCallback) {
-    each(PlayerTopDownSprites.sprites, (s) => {
-      this.spritesList[s.state] = this.loader.load(s.sources, this.width, this.height,
-                                      (loaded: boolean) => this.isLoaded(loaded, callback));
-    });
+  async load() {
+    for (let s of PlayerTopDownSprites.sprites) {
+      this.spritesList[s.state] = await this.loader.load(s.sources, this.width, this.height);
+    }
+
+    this.sprites = this.spritesList[this.state.toString()];
   }
 
-  isLoaded(loaded: boolean, callback?: ResourceLoaderCallback) {
-    if (loaded) {
-      this.loaded = true;
-      this.sprites = this.spritesList[this.state.toString()];
-      if (callback) {
-        callback(true);
-      }
-    }
+  idle() {
+    this.movementHandler.idle();
   }
 
   update() {

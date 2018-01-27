@@ -3,7 +3,5 @@ export abstract class ResourceLoader {
 
   constructor() {}
 
-  abstract load(src: string[], width?: number, height?: number, isLoaded?: ResourceLoaderCallback): HTMLImageElement[];
+  abstract load(src: string[], width?: number, height?: number);
 }
-
-export type ResourceLoaderCallback = (res: boolean) => boolean | void;

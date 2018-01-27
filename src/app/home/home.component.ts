@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SlideModel } from '../interfaces/slide-model';
+import { GameEngine } from 'app/game-2d/engine/game-engine';
 
 @Component({
   selector: 'app-home',
