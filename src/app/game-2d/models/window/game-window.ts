@@ -1,7 +1,7 @@
 export class GameWindow {
   private static _instance: GameWindow;
-  private readonly oWidth: number;
-  private readonly oHeight: number;
+  private readonly widthRatio: number;
+  private readonly heightRatio: number;
 
   canvas: HTMLCanvasElement;
   width: number;
@@ -12,9 +12,13 @@ export class GameWindow {
 
   private constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('game_canvas');
-    this.oWidth = this.width = this.canvas.width;
-    this.oHeight = this.height = this.canvas.height;
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
 
+    this.widthRatio = this.width / document.documentElement.clientWidth;
+    this.heightRatio = this.height / document.documentElement.clientHeight;
+
+    window.addEventListener('resize', this.calcResize.bind(this));
     this.canvas.addEventListener('dblclick', this.setFullScreen.bind(this));
     this.setFullScreenParams();
   }
@@ -42,12 +46,13 @@ export class GameWindow {
 
   onFullScreenChange() {
     setTimeout(() => {
-      if (document[this.fsElement]) {
-        this.setDimensions(document.documentElement.clientWidth, document.documentElement.clientHeight);
-      } else {
-        this.setDimensions(this.oWidth, this.oHeight);
-      }
+      this.calcResize();
     }, 100);
+  }
+
+  calcResize() {
+    this.setDimensions(document.documentElement.clientWidth * this.widthRatio,
+                        document.documentElement.clientHeight * this.heightRatio);
   }
 
   setFullScreenParams() {

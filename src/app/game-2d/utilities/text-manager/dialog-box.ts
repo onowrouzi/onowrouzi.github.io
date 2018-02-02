@@ -12,7 +12,7 @@ export class DialogBox extends ClickableFigure {
   private onStart: ClickAction;
   private onFinish: ClickAction;
 
-  constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, callback?: ClickAction,
+  constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, z?: number, callback?: ClickAction,
               txt?: string, color?: string, backgroundColor?: string) {
     super(x, y, width, height, ctx, () => {
       if (this.txtIdx < this.txt.length) {
@@ -25,7 +25,7 @@ export class DialogBox extends ClickableFigure {
           callback();
         }
       }
-    });
+    }, z || 10);
 
     this.txtMgr = TextManager.get(ctx);
     this.txt = txt;
@@ -36,13 +36,15 @@ export class DialogBox extends ClickableFigure {
 
   update() {
     if (this.show && this.txt) {
+      super.update();
+
       this.ctx.fillStyle = this.backgroundColor;
       this.ctx.fillRect(0, this.window.height * 0.7, this.window.width, this.window.height * 0.3);
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = this.color;
       this.ctx.strokeRect(0, this.window.height * 0.7, this.window.width, this.window.height * 0.3);
       this.ctx.lineWidth = 1;
-      this.txtMgr.drawText(this.txt.substr(0, this.txtIdx), this.window.height * 0.8, 10, 'left', 'white', 8, '"Press Start 2P"');
+      this.txtMgr.drawText(this.txt.substr(0, this.txtIdx), this.window.height * 0.8, 10, 'left', 'white', 6, '"Press Start 2P"');
 
       this.txtIdx = this.txtIdx < this.txt.length ? this.txtIdx + 1 : this.txtIdx;
     }

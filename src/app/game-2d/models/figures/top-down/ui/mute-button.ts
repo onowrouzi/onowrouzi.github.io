@@ -4,6 +4,7 @@ import { PlayerTopDownFigure } from 'app/game-2d/models/figures/top-down/player/
 import { ClickFigure } from 'app/game-2d/utilities/click-handler/click-figure';
 import { OnGameClick } from 'app/game-2d/utilities/click-handler/on-game-click';
 import { ClickableFigure } from 'app/game-2d/utilities/click-handler/clickable-figure';
+import { CollisionBox } from 'app/game-2d/utilities/collision/collision-box';
 
 export class MuteButton extends ClickableFigure {
   settings: GameSettings;
@@ -15,12 +16,16 @@ export class MuteButton extends ClickableFigure {
   }
 
   async load() {
-    this.spritesList['muted'] = await this.loader.load(['assets/sprites/ui/muted.png'], this.width, this.height);
-    this.spritesList['unmuted'] = await this.loader.load(['assets/sprites/ui/unmuted.png'], this.width, this.height);
+    this.spritesList['muted'] = await this.loader.load(['assets/sprites/ui/muted.png'], this.getWidth(), this.getHeight());
+    this.spritesList['unmuted'] = await this.loader.load(['assets/sprites/ui/unmuted.png'], this.getWidth(), this.getHeight());
   }
 
   render() {
     this.sprites = this.settings.muted ? this.spritesList['muted'] : this.spritesList['unmuted'];
     super.render();
+  }
+
+  getCollisionBox() {
+    return new CollisionBox(this.getX(), this.getX() + this.getWidth(), this.getY(), this.getY() + this.getHeight());
   }
 }

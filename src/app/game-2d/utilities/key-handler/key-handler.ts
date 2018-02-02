@@ -12,15 +12,11 @@ export class GameKeyHandler {
   private lastKey: number;
   private target: GameFigure;
 
-  private constructor(target?: GameFigure) {
+  constructor(target: GameFigure) {
     this.target = target;
     this.activeKeys = [];
     this.target.ctx.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
     this.target.ctx.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
-  }
-
-  public static get(target?: GameFigure) {
-    return this.instance = this.instance || new this(target);
   }
 
   private onKeyDown(e: KeyboardEvent) {

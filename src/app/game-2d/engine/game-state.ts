@@ -3,5 +3,6 @@ export enum GameState {
   READY,
   ACTIVE,
   PAUSED,
-  STOPPED
+  STOPPED,
+  LOST
 }

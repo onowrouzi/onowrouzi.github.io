@@ -10,8 +10,20 @@ export abstract class StaticSprite extends GameSprite implements OnCollision<Gam
   }
 
   onCollision(gf: GameFigure) {
-    if (CollisionDetector.intersects(gf.getCollisionBox(), this.getCollisionBox())) {
-      gf.movementHandler.moveBack();
+    const gfBox = gf.getCollisionBox();
+    const thisBox = this.getCollisionBox();
+    if (CollisionDetector.intersects(gfBox, thisBox)) {
+      const topDiff = Math.abs(gfBox.top - thisBox.bottom);
+      const btmDiff = Math.abs(gfBox.bottom - thisBox.top);
+      const leftDiff = Math.abs(gfBox.left - thisBox.right);
+      const rightDiff = Math.abs(gfBox.left - thisBox.right);
+
+      switch (Math.min(topDiff, btmDiff, leftDiff, rightDiff)) {
+        case topDiff: gf.movementHandler.moveDown(); break;
+        case btmDiff: gf.movementHandler.moveUp(); break;
+        case leftDiff: gf.movementHandler.moveRight(); break;
+        case rightDiff: gf.movementHandler.moveLeft(); break;
+      }
     }
   }
 }

@@ -2,15 +2,24 @@ import { GameSprite } from 'app/game-2d/models/figures/game-sprite';
 import { OnGameClick } from 'app/game-2d/utilities/click-handler/on-game-click';
 import { ClickFigure } from 'app/game-2d/utilities/click-handler/click-figure';
 import { CollisionDetector } from 'app/game-2d/utilities/collision/collision-detector';
+import { ClickBroadcastService } from 'app/game-2d/utilities/click-handler/click-broadcast-service';
+
+import { each } from 'lodash';
 
 export abstract class ClickableFigure extends GameSprite implements OnGameClick {
-
+  clickBroadcaster: ClickBroadcastService;
   action: ClickAction;
 
-  constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, action: ClickAction) {
-    super(x, y, width, height, ctx);
+  constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, action: ClickAction, z?: number) {
+    super(x, y, width, height, ctx, null, z || 10);
 
     this.action = action;
+    this.clickBroadcaster = ClickBroadcastService.get();
+  }
+
+  update() {
+    each(this.clickBroadcaster.getClicks(), (e: MouseEvent) => this.onClick(e));
+    super.update();
   }
 
   onClick(e: MouseEvent) {

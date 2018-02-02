@@ -17,34 +17,34 @@ export class TopDownMovementHandler {
     }
   }
 
-  moveLeft(state?: TopDownSpriteState) {
+  moveLeft(state?: TopDownSpriteState, multiplier?: number) {
     if (state) {
       this.target.setState(state);
     }
-    this.target.x = this.target.x > 0 ? this.target.x - this.target.step : this.target.x;
+    this.target.x = this.target.x > 0 ? this.target.x - this.target.step * (multiplier || 1) : this.target.x;
   }
 
-  moveRight(state?: TopDownSpriteState) {
+  moveRight(state?: TopDownSpriteState, multiplier?: number) {
     if (state) {
       this.target.setState(state);
     }
-    this.target.x = this.target.window.width * (this.target.x + this.target.width) < this.target.window.width ?
-                      this.target.x + this.target.step : this.target.x;
+    this.target.x = this.target.getX() + this.target.getWidth() < this.target.window.width ?
+                      this.target.x + this.target.step * (multiplier || 1) : this.target.x;
   }
 
-  moveUp(state?: TopDownSpriteState) {
+  moveUp(state?: TopDownSpriteState, multiplier?: number) {
     if (state) {
       this.target.setState(state);
     }
-    this.target.y = this.target.y > 0 ? this.target.y - this.target.step : this.target.y;
+    this.target.y = this.target.y > 0 ? this.target.y - this.target.step * (multiplier || 1) : this.target.y;
   }
 
-  moveDown(state?: TopDownSpriteState) {
+  moveDown(state?: TopDownSpriteState, multiplier?: number) {
     if (state) {
       this.target.setState(state);
     }
-    this.target.y = this.target.window.height * (this.target.y + this.target.height) < this.target.window.height ?
-                      this.target.y + this.target.step : this.target.y;
+    this.target.y = this.target.getY() + this.target.getHeight() < this.target.window.height ?
+                      this.target.y + this.target.step * (multiplier || 1) : this.target.y;
   }
 
   moveBack() {}

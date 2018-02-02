@@ -39,7 +39,5 @@ export class TextManager {
     }
 
     this.ctx.fillText(line, x, y);
-
-    // this.ctx.fillText(text, x, y);
   }
 }

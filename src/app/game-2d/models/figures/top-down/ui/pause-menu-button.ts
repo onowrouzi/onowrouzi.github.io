@@ -22,6 +22,10 @@ export class PauseMenuButton extends ClickableFigure {
     this.backgroundColor = backgroundColor || '#333';
   }
 
+  update() {
+    super.update();
+  }
+
   render() {
     const rect = this.getCollisionBox();
     this.ctx.fillStyle = this.backgroundColor;
@@ -30,17 +34,14 @@ export class PauseMenuButton extends ClickableFigure {
     this.ctx.strokeRect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
     this.ctx.fillStyle = this.color;
     this.ctx.textAlign = this.align;
-    this.ctx.fillText(this.text, this.window.width * this.x, this.window.height * this.y);
+    this.ctx.fillText(this.text, this.getX(), this.getY());
   }
 
   getCollisionBox() {
-    this.ctx.font = this.window.height * this.height + 'px ' +  (this.fontFamily || 'calibri');
+    this.ctx.font = this.getHeight() + 'px ' +  (this.fontFamily || 'calibri');
 
     const metrics = this.ctx.measureText(this.text);
-    const width = metrics.width > this.window.width * this.width ? this.window.width * this.width : metrics.width;
-    return new CollisionBox(this.window.width * this.x - width,
-                            this.window.width * this.x + width,
-                            this.window.height * this.y - this.window.height * this.height,
-                            this.window.height * this.y + this.window.height * this.height / 2);
+    const width = metrics.width > this.getWidth() ? this.getWidth() : metrics.width;
+    return new CollisionBox(this.getX() - width, this.getX() + width, this.getY() - this.getHeight(), this.getY() + this.getHeight() / 2);
   }
 }

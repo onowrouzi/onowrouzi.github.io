@@ -9,16 +9,17 @@ export class Heart extends GameSprite implements IObserver<PlayerTopDownFigure> 
 
   constructor(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D) {
     super(x, y, width, height, ctx);
+
+    this.count = 3;
   }
 
   async load() {
-    this.sprites = await this.loader.load(['assets/sprites/ui/heart.png'], this.width, this.height);
+    this.sprites = await this.loader.load(['assets/sprites/ui/heart.png'], this.getWidth(), this.getHeight());
   }
 
   render() {
     for (let i = 0; i < this.count; i++) {
-      this.ctx.drawImage(this.sprites[0], this.window.width * this.x + this.window.width * this.width * i, this.y,
-                          this.window.width * this.width, this.window.height * this.height);
+      this.ctx.drawImage(this.sprites[0].img, this.getX() + this.getWidth() * i, this.y, this.getWidth(), this.getHeight());
     }
   }
 

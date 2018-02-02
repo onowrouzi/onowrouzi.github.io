@@ -19,7 +19,7 @@ export class TopDownPlayerMovementHandler extends TopDownMovementHandler {
     super(player);
 
     this.controlsEnabled = true;
-    this.keyHandler = GameKeyHandler.get(this.target);
+    this.keyHandler = new GameKeyHandler(this.target);
   }
 
   idle(state?: PlayerTopDownState) {
@@ -28,22 +28,23 @@ export class TopDownPlayerMovementHandler extends TopDownMovementHandler {
     }
 
     this.keyHandler.clear();
+    this.update();
   }
 
   moveBack() {
     const direction = this.keyHandler.getDirection();
 
     if (this.keyHandler.isPressed(KeyCode.LEFT)) {
-      this.moveRight(direction);
+      this.moveRight(direction, 2);
     }
     if (this.keyHandler.isPressed(KeyCode.RIGHT)) {
-      this.moveLeft(direction);
+      this.moveLeft(direction, 2);
     }
     if (this.keyHandler.isPressed(KeyCode.UP)) {
-      this.moveDown(direction);
+      this.moveDown(direction, 5);
     }
     if (this.keyHandler.isPressed(KeyCode.DOWN)) {
-      this.moveUp(direction);
+      this.moveUp(direction, 2);
     }
   }
 

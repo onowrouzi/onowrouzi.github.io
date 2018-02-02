@@ -11,6 +11,8 @@ import { StatsManager } from 'app/game-2d/utilities/stats-manager/stats-manager'
 
 import { Injectable } from '@angular/core';
 import { each } from 'lodash';
+import { ClickBroadcastService } from 'app/game-2d/utilities/click-handler/click-broadcast-service';
+import { take } from 'rxjs/operators/take';
 
 @Injectable()
 export class GameEngine {
@@ -20,11 +22,13 @@ export class GameEngine {
   private prevFrameTime = 0;
   private isLoading: boolean;
   private ctx: CanvasRenderingContext2D;
+  private clickBroadcaster: ClickBroadcastService;
 
   settings: GameSettings;
   audio: HTMLAudioElement;
   muteBtn: MuteButton;
   pauseBtns: PauseMenuButton[];
+  replayBtn: PauseMenuButton;
   txtMgr: TextManager;
   statsMgr: StatsManager;
   window: GameWindow;
@@ -37,20 +41,13 @@ export class GameEngine {
 
   private constructor(fps?: number) {
     const canvas = <HTMLCanvasElement>document.getElementById('game_canvas');
-    canvas.width = canvas.width || canvas.parentElement.clientWidth;
-    canvas.height = canvas.height || canvas.width * 0.5625;
+    canvas.height = canvas.height || (canvas.width ? canvas.width * 0.5625 : document.documentElement.clientHeight);
+    canvas.width = canvas.width || document.documentElement.clientWidth;
     canvas.addEventListener('click', this.onClick.bind(this));
     canvas.addEventListener('blur', this.pause.bind(this));
-    canvas.addEventListener('keydown', ((e) => {
-      if (e.keyCode === this.pauseKey) {
-        if (this.state === GameState.ACTIVE) {
-          this.pause();
-        } else if (this.state === GameState.PAUSED) {
-          this.play();
-        }
-      }
-    }).bind(this));
+    canvas.addEventListener('keydown', this.togglePause.bind(this));
 
+    this.clickBroadcaster = ClickBroadcastService.get();
     this.FPS = fps || 20;
     this.ctx = canvas.getContext('2d');
     this.window = GameWindow.get();
@@ -65,8 +62,10 @@ export class GameEngine {
     this.stage = new GameStageOne();
 
     this.pauseBtns = [
-      new PauseMenuButton(0.5, 0.5, 0.3, 0.1, this.ctx, this.play.bind(this), 'RESUME'),
+      new PauseMenuButton(0.5, 0.55, 0.3, 0.1, this.ctx, this.play.bind(this), 'RESUME'),
     ];
+
+    this.replayBtn = new PauseMenuButton(0.5, 0.55, 0.3, 0.1, this.ctx, this.resetStage.bind(this), 'REPLAY');
 
     this.muteBtn = new MuteButton(0.9, 0.9, 0.1, 0.1, this.ctx);
     this.muteBtn.load();
@@ -94,36 +93,45 @@ export class GameEngine {
   }
 
   private clear() {
-    this.ctx.fillStyle = 'black';
-    this.ctx.fillRect(0, 0, this.window.width, this.window.height);
+    this.ctx.clearRect(0, 0, this.window.width, this.window.height);
     this.ctx.save();
   }
 
   private update() {
     this.ctx.beginPath();
 
+    this.stage.update(this.state);
+
+    if (this.stage.player && this.stage.player.health <= 0) {
+      this.state = GameState.LOST;
+    }
+
     switch (this.state) {
       case GameState.READY:
-        this.stage.update(true);
-        this.txtMgr.drawText(this.readyText, this.window.height * 0.3);
+        this.txtMgr.drawText(this.readyText, this.window.height * 0.4);
         break;
       case GameState.ACTIVE:
-        this.stage.update();
+        this.muteBtn.update();
+        this.audio.muted = this.settings.muted;
         break;
       case GameState.LOADING:
-        this.txtMgr.drawText(this.loadingText, this.window.height * 0.3);
+        this.txtMgr.drawText(this.loadingText, this.window.height * 0.4);
         break;
       case GameState.PAUSED:
-        this.stage.update(true);
-        this.txtMgr.drawText(this.pausedText, this.window.height * 0.3);
-        each(this.pauseBtns, (pb) => pb.render());
+        this.txtMgr.drawText(this.pausedText, this.window.height * 0.4);
+        each(this.pauseBtns, (pb) => pb.update());
+        break;
+      case GameState.LOST:
+        this.txtMgr.drawText('GAME OVER', this.window.height * 0.4);
+        this.replayBtn.update();
         break;
     }
 
     const time = new Date(this.statsMgr.timer.time * 1000).toISOString().substr(14, 5);
     this.txtMgr.drawText(' ' + time, this.window.height * 0.99, null, 'left', 'white', 6);
     this.txtMgr.drawText('SCORE: ' + this.statsMgr.score + ' ', this.window.height * 0.065, null, 'right', 'white', 6);
-    this.muteBtn.render();
+
+    this.clickBroadcaster.clear();
 
     this.ctx.restore();
   }
@@ -131,16 +139,9 @@ export class GameEngine {
   onClick(e: MouseEvent) {
     if (this.state === GameState.READY) {
       return this.play();
+    } else {
+      this.clickBroadcaster.add(e);
     }
-
-    if (this.state === GameState.PAUSED) {
-      each(this.pauseBtns, (pb) => pb.onClick(e));
-    } else if (this.state === GameState.ACTIVE) {
-      this.muteBtn.onClick(e);
-      this.audio.muted = this.settings.muted;
-    }
-
-    this.stage.onClick(e);
   }
 
   async start() {
@@ -156,14 +157,12 @@ export class GameEngine {
   }
 
   play() {
-    this.statsMgr.timer.start(this.state === GameState.READY ? 0 : this.statsMgr.timer.time);
+    this.statsMgr.timer.start(this.statsMgr.timer.time);
     this.state = GameState.ACTIVE;
 
     if (!this.settings.muted) {
       this.audio.play();
     }
-
-    this.gameLoop(0);
   }
 
   pause() {
@@ -177,8 +176,24 @@ export class GameEngine {
     this.stage.pause();
   }
 
+  togglePause(e: KeyboardEvent) {
+    if (e.keyCode === this.pauseKey) {
+      if (this.state === GameState.ACTIVE) {
+        this.pause();
+      } else if (this.state === GameState.PAUSED) {
+        this.play();
+      }
+    }
+  }
+
   setStage(stage: GameStage) {
     this.stage = stage;
     this.start();
+  }
+
+  resetStage() {
+    this.state = GameState.LOADING;
+    this.stage.reset();
+    this.state = GameState.READY;
   }
 }

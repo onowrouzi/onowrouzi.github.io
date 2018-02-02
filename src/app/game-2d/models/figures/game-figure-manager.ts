@@ -3,6 +3,7 @@ import { GameFigure } from 'app/game-2d/models/figures/game-figure';
 import { each, reject } from 'lodash';
 
 export enum GameFigureTypes {
+  Background,
   Enemy,
   Environment,
   Friend,
@@ -12,12 +13,11 @@ export enum GameFigureTypes {
 export class GameFigureManager {
   private static instance: GameFigureManager;
 
-  private figures: GameFigure[];
   private figureList: {};
 
   private constructor() {
-    this.figures = [];
     this.figureList = {
+      [GameFigureTypes.Background]: new Array<GameFigure>(),
       [GameFigureTypes.Enemy]: new Array<GameFigure>(),
       [GameFigureTypes.Environment]: new Array<GameFigure>(),
       [GameFigureTypes.Friend]: new Array<GameFigure>(),
@@ -30,7 +30,7 @@ export class GameFigureManager {
   }
 
   query(type?: GameFigureTypes) {
-    return type ? this.figureList[type] : this.figureList;
+    return type != null ? this.figureList[type] : this.figureList;
   }
 
   add(f: GameFigure | GameFigure[], type: GameFigureTypes, delayLoad?: boolean) {
@@ -57,6 +57,16 @@ export class GameFigureManager {
     each(GameFigureTypes, (t) => {
       this.figureList[t] = reject(this.figureList[t], (f: GameFigure) => f.deleted);
     });
+  }
+
+  clear() {
+    this.figureList = {
+      [GameFigureTypes.Background]: new Array<GameFigure>(),
+      [GameFigureTypes.Enemy]: new Array<GameFigure>(),
+      [GameFigureTypes.Environment]: new Array<GameFigure>(),
+      [GameFigureTypes.Friend]: new Array<GameFigure>(),
+      [GameFigureTypes.UI]: new Array<GameFigure>()
+    };
   }
 
   loadAll() {
